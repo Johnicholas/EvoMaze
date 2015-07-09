@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 // Bigger populations take longer, but allow more diversity in the gene pool.
-static const int POPULATION_SIZE = 200;
+static const int POPULATION_SIZE = 250;
 
 // STEADY_STATE = true -> means that we keep the parents for the next generation. This is
 // useful if you are churning a lot and your crossover methods are unreliable, because it means
@@ -19,7 +19,7 @@ static const bool STEADY_STATE = false;
 // pool fresh and to try and avoid it getting stuck with lots of variations on the same one map.
 static const bool NOVELTY_INJECTION = false;
 
-static const int MAX_GENERATIONS = 2000;
+static const int MAX_GENERATIONS = 2500;
 
 static int GENERATIONS_PASSED = 0;
 
