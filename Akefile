@@ -1,0 +1,14 @@
+evoMaze: MapEvolution.o MapComparator.o AMap.o
+  g++ MapEvolution.o MapComparator.o AMap.o -o evoMaze
+
+MapEvolution.o: MapEvolution.cpp MapComparator.h AMap.h MapEvolution.h
+  g++ -c MapEvolution.cpp -o MapEvolution.o
+
+MapComparator.o: MapComparator.cpp MapComparator.h AMap.h
+  g++ -c MapComparator.cpp -o MapComparator.o
+
+AMap.o: AMap.cpp AMap.h
+  g++ -c AMap.cpp -o AMap.o
+
+clean:
+  rm evoMaze MapEvolution.o MapComparator.o AMap.o
