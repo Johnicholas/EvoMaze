@@ -56,11 +56,6 @@ bool MapEvolution::tickGeneration(bool verbose) {
     AMap* parent2 = population.front();
     population.pop_front();
 
-    if (STEADY_STATE) {
-      nextGeneration.push_back(parent1);
-      nextGeneration.push_back(parent2);
-    }
-
     // Mix and match crossover styles as you wish. I tend to blend a few together.
     nextGeneration.push_back(parent1->crossoverOnePoint(parent2));
     nextGeneration.push_back(parent2->crossoverOnePoint(parent1));
@@ -74,8 +69,21 @@ bool MapEvolution::tickGeneration(bool verbose) {
       nextGeneration.push_back(new AMap());
       nextGeneration.push_back(new AMap());
     }
+
+    if (STEADY_STATE) {
+      nextGeneration.push_back(parent1);
+      nextGeneration.push_back(parent2);
+    } else {
+      delete parent1;
+      delete parent2;
+    }
   }
-		
+
+  while (population.size() > 0) {
+    delete population.front();
+    population.pop_front();
+  }
+  
   population = nextGeneration;
   GENERATIONS_PASSED += 1;
 		
@@ -96,6 +104,11 @@ void MapEvolution::evolveMap() {
   // std::cout << population.get(population.size()-1).length ; // TODO
   best->print();
   // this.printPath(population.get(0)); // TODO
+  
+  while (population.size() > 0) {
+    delete population.front();
+    population.pop_front();
+  }
 }
 
 bool MapEvolution::evolutionFinished() {
