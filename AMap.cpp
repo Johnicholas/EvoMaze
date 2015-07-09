@@ -84,7 +84,7 @@ static bool newRandomMapTile() {
 
 // Just a loop helper that appeals to newRandomMapTile()
 static AMap::map_rep newRandomMap() {
-  AMap::map_rep map;
+  AMap::map_rep out;
   for (int i = 0; i < map_height; i += 1) {
     AMap::row_rep row;
     for (int j = 0; j < map_width; j += 1) {
@@ -96,20 +96,18 @@ static AMap::map_rep newRandomMap() {
         row.push_back(newRandomMapTile());
       }
     }
-    map.push_back(row);
+    out.push_back(row);
   }
-  return map;
+  return out;
 }
 	
 // Constructor
-AMap::AMap() : map(newRandomMap()), length_computed(false) {
-}
+AMap::AMap() : map(newRandomMap()), length_computed(false) {}
 
 // Constructor
-AMap::AMap(map_rep master) : map(master), length_computed(false) {
-}
+AMap::AMap(map_rep master) : map(master), length_computed(false) {}
 
-AMap AMap::crossoverViaPointSwap(AMap otherParent) {
+AMap* AMap::crossoverViaPointSwap(AMap* otherParent) {
   map_rep out;
   for (int i = 0; i < map_height; i += 1) {
     row_rep row;
@@ -117,15 +115,15 @@ AMap AMap::crossoverViaPointSwap(AMap otherParent) {
       if (drand48() < crossover_rate) {
         row.push_back(map[i][j]);
       } else {
-        row.push_back(otherParent.map[i][j]);
+        row.push_back(otherParent->map[i][j]);
       }
     }
     out.push_back(row);
   }
-  return AMap(out);
+  return new AMap(out);
 }
-	
-AMap AMap::crossoverOnePoint(AMap otherParent) {
+
+AMap* AMap::crossoverOnePoint(AMap* otherParent) {
   map_rep out;
   int swap = rand() % (map_height * map_width);
   for (int i = 0; i < map_height; i += 1) {
@@ -135,12 +133,12 @@ AMap AMap::crossoverOnePoint(AMap otherParent) {
         swap -= 1;
         row.push_back(map[i][j]);
       } else {
-        row.push_back(otherParent.map[i][j]);
+        row.push_back(otherParent->map[i][j]);
       }
     }
     out.push_back(row);
   }
-  return AMap(out);
+  return new AMap(out);
 }
 
 // New for 2013! Mutation!
@@ -148,14 +146,14 @@ AMap AMap::crossoverOnePoint(AMap otherParent) {
 // gets you so far - it can't make small adjustments very well. Mutation
 // helps with this - it makes smaller changes to a single solution to try and
 // slowly improve them. Here, we just randomly flip ten tiles in the map. 
-AMap AMap::mutate() {
+AMap* AMap::mutate() {
   map_rep out = map;
   for (int n = 0; n < flip_amount; n += 1) {
     int i = rand() % map_height;
     int j = rand() % map_width;
     out[i][j] = !out[i][j];
   }
-  return AMap(out);
+  return new AMap(out);
 }
 	
 void AMap::print() {

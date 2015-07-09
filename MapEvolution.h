@@ -1,25 +1,22 @@
 #ifndef MAP_EVOLUTION_H
 #define MAP_EVOLUTION_H
 
-#include <list>
+#include <deque>
 
-#include "AMap.h"
+class AMap;
 
 class MapEvolution {
  public:
   void initPopulation();
   bool tickGeneration();
   bool tickGeneration(bool verbose);
-  AMap evolveMap();
-  AMap evolveMap(bool verbose);
-  AMap getBestMapSoFar();
+  void evolveMap();
+  void evolveMap(bool verbose);
   bool evolutionFinished();
 
  private:
-  std::list<AMap> population;
+  std::deque<AMap*> population;
 
-  void printPath(AMap);
-  void printMap(AMap::map_rep);
 };
 
 #endif

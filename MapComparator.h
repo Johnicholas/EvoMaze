@@ -3,7 +3,7 @@
 
 #include "AMap.h"
 
-bool compare(AMap, AMap);
+bool compare(AMap*, AMap*);
 
 #endif
 
