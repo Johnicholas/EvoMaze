@@ -49,13 +49,39 @@ int AMap::length() {
             done = false;
           }
           // east
+          if (j+1 < map_width && d[i][j] > d[i][j+1]+1) {
+            d[i][j] = d[i][j+1]+1;
+            done = false;
+          }
+          // west
           if (j-1 >= 0 && d[i][j] > d[i][j-1]+1) {
             d[i][j] = d[i][j-1]+1;
             done = false;
           }
-          // west
+          // south
+          if (i+1 < map_height && d[i][j] > d[i+1][j]+1) {
+            d[i][j] = d[i+1][j]+1;
+            done = false;
+          }
+        }
+      }
+    }
+    for (int i = map_height - 1; i >= 0; i -= 1) {
+      for (int j = map_width - 1; j >= 0; j -= 1) {
+        if (map[i][j]) {
+          // north
+          if (i-1 >= 0 && d[i][j] > d[i-1][j]+1) {
+            d[i][j] = d[i-1][j]+1;
+            done = false;
+          }
+          // east
           if (j+1 < map_width && d[i][j] > d[i][j+1]+1) {
             d[i][j] = d[i][j+1]+1;
+            done = false;
+          }
+          // west
+          if (j-1 >= 0 && d[i][j] > d[i][j-1]+1) {
+            d[i][j] = d[i][j-1]+1;
             done = false;
           }
           // south
